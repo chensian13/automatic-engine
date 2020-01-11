@@ -1,0 +1,89 @@
+/**
+ * 颜色选择方案
+ */
+.text-blue{color: #1E9FFF;}
+.text-purple{color: #4B0082;}
+.text-red{color: #FF5722;}
+.text-gray{color: #009688;}
+.text-black{color: #393D49;}
+.text-orange{color: #FFB800;}
+.text-light{color: #F0F0F0;}
+.text-whilte{color: #FFFFFF;}
+
+.bg-blue{background-color: #1E9FFF;}
+.bg-red{background-color: #FF5722;}
+.bg-gray{background-color: #009688;}
+.bg-black{background-color: #393D49;}
+.bg-orange{background-color: #FFB800;}
+.bg-light{background-color: #F0F0F0;}
+.bg-purple{background-color: #4B0082;}
+
+
+/**
+ * 边框选择方案
+ */
+.border-none{border-style: none;}
+.border-solid-gray{
+	border-style: solid;
+	border-width: thin;
+	border-color: #009688;
+}
+.border-solid-blue{
+	border-style: solid;
+	border-width: thin;
+	border-color: #1E9FFF;
+}
+.border-solid-red{
+	border-style: solid;
+	border-width: thin;
+	border-color: #FF5722;
+}
+.border-solid-black{
+	border-style: solid;
+	border-width: thin;
+	border-color: #393D49;
+}
+.border-solid-orange{
+	border-style: solid;
+	border-width: thin;
+	border-color: #FFB800;
+}
+.border-solid-light{
+	border-style: solid;
+	border-width: thin;
+	border-color: #F0F0F0;
+}
+.border-solid-purple{
+	border-style: solid;
+	border-width: thin;
+	border-color: #4B0082;
+}
+
+
+
+
+/**
+ * 表单解决方案
+ *
+ */
+input[type='checkbox']{
+	height: 20px; 
+	width: 20px;
+}
+
+
+
+page-button{
+	display: block;
+	padding: 5px;
+}
+
+table-oper{
+	display: inline-block;
+	padding: 5px;
+}
+
+table td,th{
+	text-align: center;
+	padding: 5px;
+}
