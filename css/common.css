@@ -85,5 +85,23 @@ table-oper{
 
 table td,th{
 	text-align: center;
-	padding: 5px;
+	padding:2px 5px;
+	font-size: 14px;
+}
+table tbody{
+	
+}
+
+
+pop{
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+lay{
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
 }

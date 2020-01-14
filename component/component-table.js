@@ -1,55 +1,26 @@
 /**
  * 表格解决方案
+ * 表格比较关键的组成：表头+数据
  */
 var TABLE_FONT_SIZE="14px";
 var tableMap={
 };
 
-function tableComponent(){
-	_table_decorate(document.querySelectorAll("table"));
-	_table_oper_decorate(document.querySelectorAll("table-oper"));
+function tableComponent(id,config){
+	_table_header(id,config);
 }
 
 /**
  * 给指定table添加数据
  * @param {Object} table
- * @param {Object} data
+ * @param {Array} data
  */
-function tableData(tableId,data){
+function tableData(tableId,data,config){
 	var table=document.getElementById(tableId);
 	if(data==null || data.length==0) return ;
-	var oper=isNotEmpty(table.getAttribute("oper")); //是否支持操作数据
-	var keys=_table_keys(table);
-	var keyId=table.getAttribute("key-id");
-	var color=table.getAttribute("color");
 	for(var i=0;i<data.length;i++){
-		var tr=document.createElement("tr");
-		if(oper){
-			var td=document.createElement("td");
-			var check=document.createElement("input");
-			check.setAttribute("type","checkbox");
-			td.appendChild(check);
-			_table_style_td(td,color);
-			tr.appendChild(td);
-			//设置记录id
-			if(isNotEmpty(keyId)){
-				check.setAttribute("key-id",data[i][keyId]);
-				tr.setAttribute("key-id",data[i][keyId]);
-			} //end if
-		} //end if
-		//记录渲染
-		for(var j=0;j<keys.length;j++){
-			for(d in data[i]){
-				var td=document.createElement("td");
-				if(d==keys[j]){
-					td.textContent=data[i][d];
-					_table_style_td(td,color);
-					tr.appendChild(td);
-				} //end if
-			} //end for
-			
-		} //end for
-		table.appendChild(tr);
+		var tr=_table_create_("tr",null,table);
+		_table_tr_data(tr,data[i],config);
 	} //end for
 }
 
@@ -58,72 +29,40 @@ function tableData(tableId,data){
  * 删除某个table下被选中的行
  * @param {Object} tableId
  */
-function tableDeleteRows(tableId){
-	var ids=_table_oper_selected(tableId);
-	var trs=document.getElementById(tableId).getElementsByTagName("tr");
-	for(var i=0;i<trs.length;i++){
-		for(var j=0;j<ids.length;j++){
-			if(isNotEmpty(trs[i].getAttribute("key-id")) 
-				&& trs[i].getAttribute("key-id")==ids[j]){
-				trs[i].remove();
-			}
-		} //end for
+function tableDeleteRows(id){
+	var trs=document.getElementById(id).querySelectorAll('tr');
+	if(trs==null) return ;
+	for(var i=1;i<trs.length;i++){
+		var checkbox=trs[i].querySelector("input[type='checkbox']");
+		if(checkbox.checked){
+			trs[i].remove();
+		}
 	} //end for
 }
-//***************************************************************************************************
+
 /**
  * 
- * @param {Object} tables
+ * @param {Object} id
  */
-function _table_decorate(tables){
-	if(tables==null || tables.length==0) return ;
-	for(var i=0;i<tables.length;i++){
-		if(isNotEmpty(tables[i].id))
-			tableMap[tables[i].id]={}; //数据初始化
-		_table_style(tables[i]);
+function tableSelectedIds(id){
+	var ids=[];
+	var trs=document.getElementById(id).querySelectorAll('tr');
+	if(trs==null) return ;
+	for(var i=1;i<trs.length;i++){
+		var checkbox=trs[i].querySelector("input[type='checkbox']");
+		if(checkbox.checked){
+			ids.push(checkbox.value);
+		}
 	} //end for
+	return ids;
 }
 
-function _table_oper_decorate(opers){
-	if(opers==null || opers.length==0) return ;
-	for(var i=0;i<opers.length;i++){
-		var btns=opers[i].querySelectorAll("button");
-		for(var j=0;j<btns.length;j++){
-			if('delete'==btns[j].getAttribute("event")){
-				btns[j].tableId=opers[i].getAttribute("table-id");
-				btns[j].onclick=function(){
-					_table_oper_delete(this.tableId);
-				} //end bind
-			}else if('edit'==btns[j].getAttribute("event")){
-				btns[j].tableId=opers[i].getAttribute("table-id");
-				btns[j].onclick=function(){
-					_table_oper_edit(this.tableId);
-				} //end bind
-			}
-		} //end for
-	} //end for
-}
-
+//*****************************************************************************************************
 /**
- * 样式设置
- * @param {Object} table
+ * 
+ * @param {Object} td
+ * @param {Object} color
  */
-function _table_style(table){
-	table.style.borderSpacing="0";
-	table.style.fontSize=TABLE_FONT_SIZE;
-	var color=table.getAttribute("color");
-	var tds=table.querySelectorAll("td");
-	for(var i=0;i<tds.length;i++){
-		_table_style_td(tds[i],color);
-	} //end for
-	//设置标题
-	var ths=table.querySelectorAll("th");
-	for(var i=0;i<ths.length;i++){
-		_table_style_th(ths[i],color);
-	} //end for
-}
-
-
 function _table_style_td(td,color){
 	td.style.borderBottomStyle="solid";
 	td.style.borderWidth="thin";
@@ -132,75 +71,100 @@ function _table_style_td(td,color){
 	}
 }
 
-function _table_style_th(th,color){	
-	if(isNotEmpty(color)){
-		th.style.backgroundColor=analyseColor(color);
-	}else{
-		th.style.backgroundColor=analyseColor("gray");
+function _table_style_header(header,color){
+	var ths=header.getElementsByTagName("th");
+	for(var i=0;i<ths.length;i++){
+		if(isNotEmpty(color)){
+			ths[i].style.backgroundColor=analyseColor(color);
+		}else{
+			ths[i].style.backgroundColor=analyseColor("gray");
+		}
+		ths[i].style.fontWeight="normal";
+		ths[i].style.color=analyseColor("white");
+	} //end for
+}
+
+//****************************************************算法精进**************************************************
+/**
+ * 创建一个dom节点并加入父节点
+ * @param {String} na
+ * @param {String} textContent
+ * @param {Object} parent
+ */
+function _table_create_(na,textContent,parent){
+	var co=document.createElement(na);
+	if(na=='td' || na==='th'){
+		if(isNotEmpty(textContent)){
+			co.textContent=textContent;
+		}
+	}else if(na=='input'){
+		co.setAttribute("type","checkbox");
+		if(isNotEmpty(textContent)){
+			co.value=textContent;
+		}
 	}
-	th.style.fontWeight="normal";
-	th.style.color=analyseColor("white");
+	if(isNotEmpty(parent)){
+		parent.appendChild(co);
+	}
+	return co;
 }
 
 /**
- * 获取table定义的标题属性
- * @param {Object} table
+ * 表头设置
+ * @param {Object} id
+ * @param {Object} config
  */
-function _table_keys(table){
-	var ths=table.querySelectorAll("th");
-	var keys=new Array();
-	for(var i=0;i<ths.length;i++){
-		var key=ths[i].getAttribute("key");
-		if(isNotEmpty(key)){
-			//定义key为check的标题不被接受
-			keys.push(key);
+function _table_header(id,config){
+	var table=document.getElementById(id);
+	table.innerHTML=""; //清空
+	var tr=_table_create_("tr",null,table);
+	for(var i=0;i<config.header.length;i++){
+		var item=config.header[i];
+		var th=_table_create_("th",item.value,tr);
+		if(isNotEmpty(item.width))
+			th.setAttribute("width",item.width);
+		th.field=item.field;
+		if(item.oper){
+			//是否可以操作
+			var check=_table_create_("input",null,th);
+			_table_th_checkbox(id,check);
 		}
 	} //end for
-	return keys;
+	_table_style_header(tr,config.color);//样式
 }
 
 /**
- * 获取选中的行key-id
- * @param {Object} tableId
+ * 设置表头复选框改变事件
+ * @param {Object} id
+ * @param {Object} box
  */
-function _table_oper_selected(tableId){
-	var table=document.getElementById(tableId);
-	var cs=table.querySelectorAll("input[type='checkbox']");
-	var ids=new Array();
-	for(var i=0;i<cs.length;i++){
-		if(cs[i].checked)
-			ids.push(cs[i].getAttribute("key-id"));
+function _table_th_checkbox(id,box){
+	box.onchange=function(){
+		var boxes=document.getElementById(id).querySelectorAll("td input[type='checkbox']");
+		for(var i=0;i<boxes.length;i++){
+			boxes[i].checked=this.checked;
+		} //end for
+	} //end bind
+}
+
+/**
+ * 每一行设置数据
+ * @param {Object} tr
+ * @param {Object} data
+ * @param {Object} oper
+ */
+function _table_tr_data(tr,data,config){
+	for(var i=0;i<config.header.length;i++){
+		var item=config.header[i];
+		var val=data[item.field];
+		if(isEmpty(val)) continue;
+		if(isEmpty(item.oper)){
+			var td=_table_create_("td",val,tr);
+		}else{
+			//可以操作
+			var td=_table_create_("td",null,tr);
+			var check=_table_create_("input",val,td);
+		}
 	} //end for
-	return ids;
 }
-
-
-function _table_oper_delete(tableId){
-	var ids=_table_oper_selected(tableId);
-	if(ids==null || ids.length==0) return;
-	tableMap[tableId].remove(ids);
-}
-
-
-/**
- * 编辑按钮，只允许选择一个
- * @param {Object} tableId
- */
-function _table_oper_edit(tableId){
-	var ids=_table_oper_selected(tableId);
-	if(ids==null || ids.length==0){
-		return;
-	}
-	if(ids.length>1){
-		alert("最多只能选择一行编辑！");
-		return;
-	}
-	tableMap[tableId].edit(ids[0]);
-}
-
-
-tableComponent();
-
-
-
 
