@@ -16,13 +16,28 @@
 			<button onclick="del()" color="red">删除</button>
 		</table-oper>
 		<table id="table1">
-			
 		</table>
+		
+		
+		<lay pop="pop1"></lay>
+		<pop id="pop1">
+			<button color="orange" onclick="alert('orange')">点击</button>
+			<table id="table2">
+		</pop>
+		
+		<!--<lay style="z-index: 22;"></lay>
+		<pop style="z-index: 22;" id="pop2">
+			<button color="red" onclick="alert('red')">点击</button>
+		</pop>-->
+		
 	</body>
+	<script type="text/javascript" src="component/component-pop.js" ></script>
 	<script type="text/javascript" src="component/component-page.js"></script>
 	<script type="text/javascript" src="component/component-table.js" ></script>
 	<script type="text/javascript" src="component/component-btn.js" ></script>
 	<script>
+		popComponent('pop1',2);
+		//popComponent('pop2');
 		var data1=[{'id':1, 'username':'csa','oper':'添加','ip':'127.0.0.1'},
 					{'id':2,'oper':'删除','username':'尘埃之光','ip':'129.3.202.2'}];
 		
@@ -42,8 +57,24 @@
 				field:'ip'
 			}]
 		};
+		var config2={
+			color:'blue',
+			header:[{
+				value:"用户",
+				field:'username'
+			},{
+				value:"操作方法",
+				field:'oper'
+			},{
+				value:"ip地址",
+				field:'ip'
+			}]
+		};
 		tableComponent("table1",config1); //注册table
 		tableData("table1",data1,config1); //数据渲染
+		
+		tableComponent("table2",config2); //注册table
+		tableData("table2",data1,config2); //数据渲染
 		
 		function del(){
 			tableDeleteRows('table1');
@@ -53,5 +84,7 @@
 			var ids=tableSelectedIds('table1');
 			alert(ids);
 		}
+		
+		btnComponent();
 	</script>
 </html>

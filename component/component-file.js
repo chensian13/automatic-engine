@@ -11,20 +11,25 @@ var DEFAULT_IMG_HEIGHT="140px";
  * 3）按钮颜色
  * 4）按钮大小：普通，大型按钮
  */
-function fileInputComponent(){
-	_file_decorate(document.querySelectorAll("file-input"));
+function fileInputComponent(id){
+	_file_decorate(document.getElementById(id));
 }
 
+function fileInputForm(id){
+	var fi=document.getElementById(id);
+	return fi.getElementsByTagName("input")[0].files;
+}
 
-function _file_decorate(files){
-	if(isEmpty(files) || files.length==0) return;
-	for(var i=0;i<files.length;i++){
-		_file_createComponents(files[i]);
-		_file_input(files[i]);
-		_file_Btn(files[i]);
-		_file_span(files[i]);
-		_file_img(files[i]);
-	} //end for
+//*************************************************************************************************
+function _file_decorate(fi){
+	if(isEmpty(fi)) return;
+	_file_createComponents(fi);
+	_file_input(fi);
+	_file_Btn(fi);
+	_file_span(fi);
+	_file_img(fi);
+	//按钮组件注入
+	btnComponent();
 }
 
 
@@ -80,7 +85,7 @@ function _file_img(fi){
 }
 
 /**
- * 创建按钮
+ * 创建
  */
 function _file_span(fi){
 	var span=fi.querySelector("span");
@@ -99,23 +104,28 @@ function _file_input(fi){
 	
 	ip.style.display="none";
 	ip.setAttribute("type","file");
-	ip.setAttribute("multiple",fi.getAttribute("multiple"));
+	if(isNotEmpty(fi.getAttribute("multiple"))){
+		ip.setAttribute("multiple",fi.getAttribute("multiple"));
+	}
 	ip.setAttribute("accept",fi.getAttribute("accept"));
 	ip.onchange=function(){
 		if(isNotEmpty(ip.files[0]) 
-			&& ip.files.length>0){
-			fi.files=ip.files;
-			span.textContent=fi.files[0].name;
-			
+				&& ip.files.length>0){
+			if(ip.files.length>1){
+				span.textContent=ip.files.length+"个文件";
+			}else{
+				//单个文件
+				span.textContent=ip.files[0].name;
+			}
+
 			//是否显示图片
 			if(isNotEmpty(img)){
 				var windowURL = window.URL || window.webkitURL;
-				img.setAttribute("src",windowURL.createObjectURL(fi.files[0]));
+				img.setAttribute("src",windowURL.createObjectURL(ip.files[0]));
 				img.style.display="block";
 			}
 		}else{
 			//取消选择
-			fi.files=null;
 			span.textContent="";
 			if(isNotEmpty(img)){
 				img.style.display="none";
@@ -125,5 +135,4 @@ function _file_input(fi){
 }
 
 
-fileInputComponent();
-btnComponent();
+

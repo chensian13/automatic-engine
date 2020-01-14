@@ -53,7 +53,6 @@ function log(tag,msg){
 
 
 
-
 /**
  * 依据组件背景色解析出字体颜色
  * @param {Object} bgColor

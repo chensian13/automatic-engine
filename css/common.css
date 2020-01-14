@@ -91,3 +91,17 @@ table td,th{
 table tbody{
 	
 }
+
+
+pop{
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+lay{
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
