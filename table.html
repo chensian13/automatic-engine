@@ -12,58 +12,50 @@
 	</head>
 
 	<body>
-		<table-oper table-id="table">
-			<button event="edit" color="blue">编辑</button>
-			<button event="delete" color="red">删除</button>
+		<table-oper>
+			<button onclick="edit()" color="blue">编辑</button>
+			<button onclick="del()" color="red">删除</button>
 		</table-oper>
-		<table key-id="id" id="table" oper>
-			<tr>
-				<th></th>
-				<th key="t1" width="200px">列表1</th>
-				<th key="t2">列表2</th>
-				<th key="t3">列表3</th>
-			</tr>
+		<table id="table1">
+			
 		</table>
 		
-		<table-oper table-id="table2">
-			<button event="edit" color="blue">编辑</button>
-			<button event="delete" color="red">删除</button>
-		</table-oper>
-		<table key-id="id" color="blue" id="table2" oper>
-			<tr>
-				<th></th>
-				<th key="t1" width="200px">列表1</th>
-				<th key="t2">列表2</th>
-				<th key="t3">列表3</th>
-			</tr>
-		</table>
 		
-		<page-button id="page" click="page" max="56"></page-button>
+		
 	</body>
 	<script type="text/javascript" src="component/component-page.js"></script>
 	<script type="text/javascript" src="component/component-table.js" ></script>
 	<script type="text/javascript" src="component/component-btn.js" ></script>
 	<script>
-		var data=[{'id':1, 't2':'列表2','t3':'列表3','t1':'列表1'},{'id':2,'t3':'列表23','t2':'列表22','t1':'列表21'}];
-		tableData("table",data);
-		tableData("table2",data);
+		var data1=[{'id':1, 'username':'csa','oper':'添加','ip':'127.0.0.1'},
+					{'id':2,'oper':'删除','username':'尘埃之光','ip':'129.3.202.2'}];
 		
-		tableMap.table.edit=function(id){
-			alert(id)
+		var config1={
+			color:'blue',
+			header:[{
+				oper:'checkbox',
+				field:'id'
+			},{
+				value:"用户",
+				field:'username'
+			},{
+				value:"操作方法",
+				field:'oper'
+			},{
+				value:"ip地址",
+				field:'ip'
+			}]
 		}
-		tableMap.table.remove=function(){
-			//alert(ids)
-			tableDeleteRows("table")
+		tableComponent("table1",config1); //注册table
+		tableData("table1",data1,config1); //数据渲染
+		
+		function del(){
+			tableDeleteRows('table1');
 		}
 		
-		tableMap.table2.edit=function(id){
-			alert(id)
+		function edit(){
+			var ids=tableSelectedIds('table1');
+			alert(ids)
 		}
-		tableMap.table2.remove=function(){
-			//alert(ids)
-			tableDeleteRows("table2")
-		}
-		
-		pageMap.page.page=function(){}
 	</script>
 </html>
