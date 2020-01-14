@@ -13,14 +13,27 @@
 	</head>
 
 	<body>
-		<page-button click="page" max="14"></page-button>
+		<page-button id="page0" ></page-button>
+		<page-button id="page1" ></page-button>
+		<page-button id="page2" ></page-button>
 	</body>
 	
 	<script type="text/javascript" src="component/component-page.js"></script>
 	<script type="text/javascript" src="component/component-btn.js"></script>
 	<script>
-		function pageButton(p){
-			log("csa",p);
-		}
+		pageComponent('page0',19)
+		pageComponent('page1',14)
+		pageComponent('page2',10)
+		pageResgisterEvent('page0',function(n){
+			if(n==6){
+				pageSetMaxPage('page0',7);
+			}
+		});
+		pageResgisterEvent('page1',function(n){
+			alert('当前页：'+n);
+		});
+		pageResgisterEvent('page2',function(n){
+			alert('当前页2：'+n);
+		});
 	</script>
 </html>

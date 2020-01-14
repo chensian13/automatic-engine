@@ -61,10 +61,6 @@ function _btn_setColor(btn,color){
 }
 
 
-/**
- * 按钮组件加入
- */
-btnComponent();
 
 
 

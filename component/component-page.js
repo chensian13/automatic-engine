@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 分页解决方案
  * 
  * 按钮渲染方案：
@@ -10,17 +10,75 @@
  * 
  * 数据结构：
  * 按钮对象是在dom中获取，是父节点下的兄弟子节点，一个数组结构
+ * 分页必须掌握两大基本信息：当前页+每页记录数+总页数
  */
 var PAGE_BTN_NUM=10;
+var pageEventMap={};
 var pageMap={};
 
 /**
  * 
  */
-function pageComponent(){
-	_page_btnsGenerate(document.querySelectorAll("page-button"));
+function pageComponent(id,max){
+	var page=document.getElementById(id);
+	if(isNotEmpty(id)){
+		pageEventMap[id]={}; //数据初始化
+		pageMap[id]=page;
+	}else{
+		//不设置id不注册
+		return ;
+	}
+	page.max=max;
+	//设置当前页为1
+	page.nowPage=1;
+	//生成按钮
+	_page_btnsGenerate(page);
+	//设置样式，当前页样式
+	_page_btns_decorate(page,1,true);
+	//按钮样式注册
+	btnComponent();
 }
 
+/**
+ * 注册按钮点击事件
+ * @param {Object} id
+ * @param {Object} event
+ */
+function pageResgisterEvent(id,fn){
+	if(isEmpty(pageEventMap[id])) return;
+	var btns=pageMap[id].querySelectorAll("button");
+	for(var i=0;i<btns.length;i++){
+		btns[i].addEventListener('click',function(){
+			fn(pageMap[id].nowPage);
+		},false);
+	} //end for
+}
+
+/**
+ * 设置最大页数
+ * @param {Object} id
+ * @param {Object} max
+ */
+function pageSetMaxPage(id,max){
+	if(max<1) return;
+	var page=pageMap[id];
+	page.max=max;
+	_page_btnsGenerate(page);
+	//设置当前页
+	if(page.nowPage>max){
+		page.nowPage=max;
+	}
+	//设置样式，当前页样式
+	_page_btns_decorate(page,page.nowPage,true);
+	btnComponent(); //按钮样式组件
+}
+
+function pageGetNowPage(id){
+	return pageMap[id].nowPage;
+}
+
+
+//********************************************算法升级*******************************************
 /**
  * page css属性
  * 1）nowPage：当前页
@@ -45,7 +103,6 @@ function _page_btn_decorate(btn,isNum,isActive){
 	} //and else
 }
 
-//********************************************算法升级*******************************************
 /**
  * 创建按钮
  */
@@ -56,12 +113,12 @@ function _page_btn_create(text){
 }
 
 /**
- * 分页按钮渲染，不做分页合理性安排
+ * 分页按钮渲染，分页合理化
  * @param {Object} btns
  * @param {Object} nowPage
  * @param {Object} isInit
  */
-function _page_btns_decorate(page,nowPage,isInit){
+function _page_btns_decorate(page,futPage,isInit){
 	var btns=page.querySelectorAll("button");
 	if(isInit){
 		_page_btn_decorate(btns[0],false,false);
@@ -72,34 +129,40 @@ function _page_btns_decorate(page,nowPage,isInit){
 	var pageNumberOffset=PAGE_BTN_NUM-pageNumberDivide; //页码增量
 	var minPage=parseInt(btns[1].textContent);
 	var maxPage=parseInt(btns[btns.length-2].textContent);
-	var nowIndex=nowPage-minPage+1; //当前选择的索引（从1开始）
-	var max=parseInt(page.getAttribute("max"));
+	var futIndex=futPage-minPage+1; //选择的索引（从1开始）
+	var max=page.max;
+	log("****************************page****************************")
+	log("原先当前页",page.nowPage);
+	log("当前页",futPage);
+	log("当前索引",futIndex);
+	log("最大页",max);
 	
-	if(nowPage>page.nowPage 
-		&& (max-nowPage)<pageNumberOffset){
-		pageNumberOffset=max-nowPage;
-	}else if(nowPage>page.nowPage
-		&& (minPage-pageNumberOffset)<1){
-		pageNumberOffset=minPage-1;
-	}else if(minPage==1 || maxPage==max){
+	if(futPage>page.nowPage 
+			&& futIndex>pageNumberDivide){
+		//往前
+		pageNumberOffset=(max-maxPage)>pageNumberOffset?pageNumberOffset:max-maxPage;
+	}else if(futPage<page.nowPage 
+			&& futIndex<=pageNumberDivide){
+		//回退
+		pageNumberOffset=(minPage-pageNumberOffset)>0?pageNumberOffset:minPage-1;
+		pageNumberOffset=-pageNumberOffset;
+	}else{
+		//选择就是当前页
 		pageNumberOffset=0;
-	}
+	} //end else
+	log("分页增量",pageNumberOffset);
 	
-	//alert(nowPage)
 	for(var i=1;i<btns.length-1;i++){
 		//需要重新渲染按钮和业务页数
-		if(nowIndex>pageNumberDivide){
-			btns[i].textContent=parseInt(btns[i].textContent)+pageNumberOffset;
-		}else if(nowIndex<=pageNumberDivide){
-			btns[i].textContent=parseInt(btns[i].textContent)-pageNumberOffset;
-		}
+		btns[i].textContent=parseInt(btns[i].textContent)+pageNumberOffset;
 		//选择和未选择样式
-		if(btns[i].textContent==nowPage){
+		if(btns[i].textContent==futPage){
 			_page_btn_decorate(btns[i],true,true);
 		}else{
 			_page_btn_decorate(btns[i],true,false);
 		}
 	} //end for
+	page.nowPage=futPage;
 } //end fn
 
 /**
@@ -107,54 +170,53 @@ function _page_btns_decorate(page,nowPage,isInit){
  * @param {Object} btn
  */
 function _page_btn_click(btn,page,btnType){
-	if(btnType==1){
-		//下一页
-		if(page.nowPage<page.max) {
-			page.nowPage++;
+	btn.addEventListener('click',function(){
+		var futPage=page.nowPage; //设置未来选择页默认值
+		if(btnType==1){
+			//下一页
+			if(futPage<page.max) {
+				futPage++;
+			}
+		}else if(btnType==-1){
+			//上一页
+			if(futPage>1){
+				futPage--;
+			}
 		}else{
-			return;
+			futPage=parseInt(this.textContent);
 		}
-	}else if(btnType==-1){
-		//上一页
-		if(page.nowPage>1){
-			page.nowPage--;
-		}else{
-			return;
-		}
-	}
-	btn.onclick=function(){
-		_page_btns_decorate(page,this.textContent,false);
-	}
+		_page_btns_decorate(page,futPage,false);
+	},false);
 }
+
+/**
+ * 分页组件 生成按钮
+ * @param {Object} page
+ */
+function _page_btnsGenerate(page){
+	page.innerHTML="";
+	var max=page.max; //理论最大页
+	//上一页按钮
+	var pre=_page_btn_create('pre');
+	_page_btn_click(pre,page,-1);
+	page.appendChild(pre);
+	//下一页按钮
+	var next=_page_btn_create('next');
+	_page_btn_click(next,page,1);
+	
+	//分页按钮
+	var btnSize=PAGE_BTN_NUM<max?PAGE_BTN_NUM:max; //按钮数量
+	for(var j=0;j<btnSize;j++){
+		var btn=_page_btn_create(j+1);
+		_page_btn_click(btn,page);
+		page.appendChild(btn);
+	} //end for
+	page.appendChild(next);
+}
+
 
 
 /**
- * 生成按钮
+ * 问题总结：
+ * js属于弱类型语言，在做数学计算 时，注意将字符串转换为数字
  */
-function _page_btnsGenerate(pages){
-	if(isEmpty(pages) || pages.length==0) return ;
-	for(var i=0;i<pages.length;i++){
-		if(isNotEmpty(pages[i].id))
-			pageMap[pages[i].id]={}; //数据初始化
-		pages[i].nowPage=1;
-		var pre=_page_btn_create('pre');
-		_page_btn_click(pre,pages[i],-1);
-		var next=_page_btn_create('next');
-		_page_btn_click(pre,pages[i],1);
-		
-		pages[i].appendChild(pre);
-		
-		for(var j=0;j<PAGE_BTN_NUM;j++){
-			var btn=_page_btn_create(j+1);
-			_page_btn_click(btn,pages[i]);
-			pages[i].appendChild(btn);
-		} //end for
-		pages[i].appendChild(next);
-		
-		_page_btns_decorate(pages[i],1,true);
-	} //end for
-}
-
-
-pageComponent();
-

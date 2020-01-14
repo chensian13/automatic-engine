@@ -48,6 +48,8 @@ function isEmpty(obj){
  * 日志打印
  */
 function log(tag,msg){
+	if(isEmpty(tag)) tag="";
+	if(isEmpty(msg)) msg="";
 	console.log(tag+": "+msg);
 }
 
