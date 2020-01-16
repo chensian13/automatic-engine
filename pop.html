@@ -12,31 +12,34 @@
 
 	<body>
 		<table-oper>
-			<button onclick="edit()" color="blue">编辑</button>
+			<button onclick="edit()" color="blue" >编辑</button>
 			<button onclick="del()" color="red">删除</button>
 		</table-oper>
 		<table id="table1">
 		</table>
-		
-		
-		<lay pop="pop1"></lay>
-		<pop id="pop1">
-			<button color="orange" onclick="alert('orange')">点击</button>
+		<img src="img/test.jpg" />
+
+		<lay style="background: gray;opacity: 0.4;" pop1></lay>
+		<pop id="pop1" style="background: white; padding: 10px; border-radius: 8px; ">
+			<button color="orange" onclick="popShow('pop2')">点击</button>
 			<table id="table2">
 		</pop>
 		
-		<!--<lay style="z-index: 22;"></lay>
-		<pop style="z-index: 22;" id="pop2">
-			<button color="red" onclick="alert('red')">点击</button>
-		</pop>-->
+		<lay pop2></lay>
+		<pop  id="pop2" style="background: white;">
+			<button color="red"  onclick="alert('red')">点击</button>
+		</pop>
 		
-	</body>
+		
+		</body>
+	
+	
 	<script type="text/javascript" src="component/component-pop.js" ></script>
 	<script type="text/javascript" src="component/component-page.js"></script>
 	<script type="text/javascript" src="component/component-table.js" ></script>
 	<script type="text/javascript" src="component/component-btn.js" ></script>
 	<script>
-		popComponent('pop1',2);
+		
 		//popComponent('pop2');
 		var data1=[{'id':1, 'username':'csa','oper':'添加','ip':'127.0.0.1'},
 					{'id':2,'oper':'删除','username':'尘埃之光','ip':'129.3.202.2'}];
@@ -82,8 +85,13 @@
 		
 		function edit(){
 			var ids=tableSelectedIds('table1');
-			alert(ids);
+			popShow('pop1');
 		}
+		
+		
+		//注册弹窗
+		popComponent('pop1',2);
+		popComponent('pop2',2);
 		
 		btnComponent();
 	</script>

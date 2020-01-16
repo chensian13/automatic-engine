@@ -60,6 +60,13 @@
 }
 
 
+/**
+ * 全局配置
+ */
+h1,h2,h3,h4,h5,h6{
+	padding: 0px;
+	margin: 0px;
+}
 
 
 /**
@@ -93,15 +100,30 @@ table tbody{
 }
 
 
-pop{
-	display: inline-block;
-	position: absolute;
+.pop{
+	display: none;
+	position: fixed;
 	left: 0;
 	top: 0;
 }
-lay{
-	display: block;
-	position: absolute;
+.lay{
+	display: none;
+	position: fixed;
 	left: 0;
 	top: 0;
+}
+lay .titleDiv{
+	padding: 4px;
+}
+pop .title{
+	font-size: 14px;
+	float: left;
+	font-weight: 600;
+}
+pop .close{
+	font-size: 12px;
+	float: right;
+}
+pop .close:hover{
+	text-decoration: underline;
 }
