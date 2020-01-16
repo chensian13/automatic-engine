@@ -31,7 +31,7 @@ function isNotEmpty(obj){
 }
 function isEmpty(obj){
 	if(obj==undefined 
-		&& obj==null){
+			|| obj==null){
 		if(obj instanceof String){
 			if(obj.trim()=="")
 				return true;

@@ -39,5 +39,3 @@ function _drop_decorate(drops){
 
 
 
-
-dropDialogComponent();

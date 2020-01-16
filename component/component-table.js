@@ -5,8 +5,10 @@
 var TABLE_FONT_SIZE="14px";
 var tableMap={
 };
+var tableConfig={};
 
 function tableComponent(id,config){
+	tableConfig[id]=config;
 	_table_header(id,config);
 }
 
@@ -15,7 +17,8 @@ function tableComponent(id,config){
  * @param {Object} table
  * @param {Array} data
  */
-function tableData(tableId,data,config){
+function tableData(tableId,data){
+	var config=tableConfig[tableId];
 	var table=document.getElementById(tableId);
 	if(data==null || data.length==0) return ;
 	for(var i=0;i<data.length;i++){
@@ -157,7 +160,11 @@ function _table_tr_data(tr,data,config){
 	for(var i=0;i<config.header.length;i++){
 		var item=config.header[i];
 		var val=data[item.field];
-		if(isEmpty(val)) continue;
+		if(isEmpty(val)) {
+			//请求数据对应不上列，自己创建一个td占位
+			var td=_table_create_("td",'',tr);
+			continue;
+		}
 		if(isEmpty(item.oper)){
 			var td=_table_create_("td",val,tr);
 		}else{
