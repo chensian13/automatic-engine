@@ -160,17 +160,23 @@ function _table_tr_data(tr,data,config){
 	for(var i=0;i<config.header.length;i++){
 		var item=config.header[i];
 		var val=data[item.field];
-		if(isEmpty(val)) {
-			//请求数据对应不上列，自己创建一个td占位
-			var td=_table_create_("td",'',tr);
-			continue;
-		}
-		if(isEmpty(item.oper)){
-			var td=_table_create_("td",val,tr);
-		}else{
+		//是否操作
+		if(item.oper){
 			//可以操作
 			var td=_table_create_("td",null,tr);
 			var check=_table_create_("input",val,td);
+			continue ;
+		}
+		if(!isEmpty(item.template)){
+			//模板修饰
+			var td=_table_create_("td",item.template(val),tr);
+		}else if(!isEmpty(val)) {
+			//直接赋值
+			var td=_table_create_("td",val,tr);
+			continue;
+		}else{
+			//请求数据对应不上列，自己创建一个td占位
+			var td=_table_create_("td",'',tr);
 		}
 	} //end for
 }
