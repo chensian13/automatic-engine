@@ -2,7 +2,7 @@
  * 弹窗解决方案
  * 
  */
-var popTitleMap={};
+
 
 /**
  * 弹出注册
@@ -13,19 +13,9 @@ function popComponent(id,z,title){
 	if(isNaN(z)) z=1;
 	_pop_decorate(id,z);
 	//标题栏
-	_pop_nav_default(id,title);
+	_pop_title_default(id,title);
 }
 
-/**
- * 设置标题名称
- * @param {Object} id
- * @param {Object} title
- */
-function popTitle(id,title){
-	var div=popTitleMap[id];
-	var h3=div.getElementsByTagName("h3")[0];
-	h3.textContent=title;
-}
 
 /**
  * 显示或者隐藏弹窗
@@ -39,7 +29,7 @@ function popShow(id,show){
 		show=true;
 	}
 	if(show){
-		pop.style.display="block";
+		pop.style.display="inline-block";
 		lay.style.display="block";
 		//每次弹出时计算更精准
 		_pop_lay_size(id);
@@ -75,12 +65,8 @@ function _pop_decorate(id,z){
 	var pop=document.getElementById(id);
 	var lay=document.querySelector("lay["+id+"]");
 	
-	lay.setAttribute('class','lay');
-	pop.setAttribute('class','pop');
-	
 	lay.style.zIndex=z;
 	pop.style.zIndex=z;
-	//pop.style.maxHeight=window.innerHeight+"px";
 }
 
 /**
@@ -104,12 +90,17 @@ function _pop_lay_size(id){
  * 添加标题
  * @param {Object} id
  */
-function _pop_nav_default(id,titleMsg){
+function _pop_title_default(id,titleMsg){
 	var pop=document.getElementById(id);
 	var div=document.createElement("div");
-	popTitleMap[id]=div; //导航栏存入map
-	//添加标题
-	div.appendChild(_pop_create_title(titleMsg));
+	div.setAttribute("class","titleDiv");
+	
+	if(isNotEmpty(titleMsg)){
+		var title=document.createElement("h3");
+		title.textContent=titleMsg;
+		title.setAttribute('class','title');
+		div.appendChild(title);
+	}
 	
 	var close=document.createElement("span");
 	close.textContent="关闭";
@@ -126,13 +117,6 @@ function _pop_nav_default(id,titleMsg){
 	pop.prepend(div);
 }
 
-
-function _pop_create_title(titleMsg){
-	var title=document.createElement("h3");
-	title.textContent=titleMsg;
-	title.setAttribute('class','title');
-	return title;
-}
 
 /**
  * 问题解决：

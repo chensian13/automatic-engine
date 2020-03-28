@@ -100,13 +100,10 @@ table tbody{
 	
 }
 
-
-.pop{
+pop{
 	display: none;
-	display: inline-block;
-	opacity: 1;
 }
-.lay{
+lay{
 	background:rgba(0,0,0,0.5);
 	display: none;
 	position: fixed;
@@ -115,12 +112,15 @@ table tbody{
 	overflow-y: auto;
 }
 lay .titleDiv{
-	padding: 4px;
+	margin-bottom: 8px;
 }
 pop .title{
+	vertical-align: top;
 	font-size: 14px;
 	float: left;
 	font-weight: 600;
+	padding: 0px;
+	margin: 0px;
 }
 pop .close{
 	font-size: 12px;

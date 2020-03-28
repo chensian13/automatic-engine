@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/common.css" />
+		<script type="text/javascript" src="analyse/analyse-common.js" ></script>
+		<style>
+			
+		</style>
+	</head>
+
+	<body>
+		<form id="form">
+			<input type="text" name="username" msg="用户名不可为空" check="has" value="csa" />
+			<input type="text" msg="电话格式不规范" check="tel" name="tel" value="13994958233" />
+			<div>
+				<button onclick='commit()'>提交</button>
+			</div>
+		</form>
+	</body>
+	<script type="text/javascript" src="component/component-btn.js" ></script>
+	<script type="text/javascript" src="component/component-form.js" ></script>
+	<script>
+		function commit(){
+			//alert(formDataJSON('form'))
+			alert(formCheckSubmit('form'))
+		}
+		
+		formComponent('form');
+		btnComponent();
+	</script>
+</html>
