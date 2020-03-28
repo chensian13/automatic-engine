@@ -30,14 +30,16 @@ function isNotEmpty(obj){
 	return false;
 }
 function isEmpty(obj){
+	if(obj instanceof String){
+		obj=obj.trim();
+	}else if(typeof obj=='boolean'){
+		return false;
+	} 
+	//开始校验
 	if(obj==undefined 
-		&& obj==null){
-		if(obj instanceof String){
-			if(obj.trim()=="")
-				return true;
-		}else{
-			return true;
-		}
+			|| obj==null 
+			|| obj==''){
+		return true;
 	} //end if
 	return false;
 }

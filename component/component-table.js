@@ -5,9 +5,13 @@
 var TABLE_FONT_SIZE="14px";
 var tableMap={
 };
+var tableConfig={};
 
 function tableComponent(id,config){
-	_table_header(id,config);
+	tableConfig[id]=config;
+	_table_header(id,config); //table头加入
+	var table=document.getElementById(id);
+	var tbody=_table_create_("tbody",null,table); //table体加入
 }
 
 /**
@@ -15,11 +19,14 @@ function tableComponent(id,config){
  * @param {Object} table
  * @param {Array} data
  */
-function tableData(tableId,data,config){
+function tableData(tableId,data){
+	var config=tableConfig[tableId];
 	var table=document.getElementById(tableId);
+	var tbody=table.getElementsByTagName("tbody")[0];
+	tbody.innerHTML=""; //清空之前数据
 	if(data==null || data.length==0) return ;
 	for(var i=0;i<data.length;i++){
-		var tr=_table_create_("tr",null,table);
+		var tr=_table_create_("tr",null,tbody);
 		_table_tr_data(tr,data[i],config);
 	} //end for
 }
@@ -95,7 +102,7 @@ function _table_create_(na,textContent,parent){
 	var co=document.createElement(na);
 	if(na=='td' || na==='th'){
 		if(isNotEmpty(textContent)){
-			co.textContent=textContent;
+			co.innerHTML=textContent;
 		}
 	}else if(na=='input'){
 		co.setAttribute("type","checkbox");
@@ -122,7 +129,8 @@ function _table_header(id,config){
 		var item=config.header[i];
 		var th=_table_create_("th",item.value,tr);
 		if(isNotEmpty(item.width))
-			th.setAttribute("width",item.width);
+			//th.setAttribute("width",item.width);
+			th.style.minWidth=item.width;
 		th.field=item.field;
 		if(item.oper){
 			//是否可以操作
@@ -157,13 +165,23 @@ function _table_tr_data(tr,data,config){
 	for(var i=0;i<config.header.length;i++){
 		var item=config.header[i];
 		var val=data[item.field];
-		if(isEmpty(val)) continue;
-		if(isEmpty(item.oper)){
-			var td=_table_create_("td",val,tr);
-		}else{
+		//是否操作
+		if(item.oper){
 			//可以操作
 			var td=_table_create_("td",null,tr);
 			var check=_table_create_("input",val,td);
+			continue ;
+		}
+		if(!isEmpty(item.template)){
+			//模板修饰
+			var td=_table_create_("td",item.template(val,data),tr);
+		}else if(!isEmpty(val)) {
+			//直接赋值
+			var td=_table_create_("td",val,tr);
+			continue;
+		}else{
+			//请求数据对应不上列，自己创建一个td占位
+			var td=_table_create_("td",'',tr);
 		}
 	} //end for
 }

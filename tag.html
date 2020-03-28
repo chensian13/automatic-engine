@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>标签</title>
+		<script type="text/javascript" src="component/component-tag.js" ></script>
+		<script type="text/javascript" src="component/component-btn.js" ></script>
+		<script type="text/javascript" src="analyse/analyse-common.js" ></script>
+		<link rel="stylesheet" href="css/common.css" />
+		<script>
+	
+			
+		</script>
+	</head>
+	<body>  
+		<button tag-target="test" color="gray" tag-href="file.html">点击跳转</button>
+		<button tag-target="test" tag-href="drop.html">点击跳转2</button>
+		<button tag-target="test" tag-href="page.html">点击跳转3</button>
+		<div style="width: 80%; margin-left: 18%;">
+			<tag id="test"  style="height: 560px;">
+				<tag-top></tag-top>
+				<tag-body></tag-body>
+			</tag>
+		</div>
+		
+		
+	</body>
+	<script>
+		tagComponent("test");
+		btnComponent();
+	</script>
+</html>

@@ -1,3 +1,4 @@
+input{padding: 0px 5px;}
 /**
  * 颜色选择方案
  */
@@ -60,6 +61,13 @@
 }
 
 
+/**
+ * 全局配置
+ */
+h1,h2,h3,h4,h5,h6{
+	padding: 0px;
+	margin: 0px;
+}
 
 
 /**
@@ -93,15 +101,117 @@ table tbody{
 }
 
 
-pop{
+.pop{
+	display: none;
 	display: inline-block;
-	position: absolute;
-	left: 0;
-	top: 0;
+	opacity: 1;
 }
-lay{
-	display: block;
-	position: absolute;
+.lay{
+	background:rgba(0,0,0,0.5);
+	display: none;
+	position: fixed;
 	left: 0;
 	top: 0;
+	overflow-y: auto;
+}
+lay .titleDiv{
+	padding: 4px;
+}
+pop .title{
+	font-size: 14px;
+	float: left;
+	font-weight: 600;
+}
+pop .close{
+	font-size: 12px;
+	float: right;
+}
+pop .close:hover{
+	text-decoration: underline;
+}
+
+.toast{
+	display: none;
+	position: fixed;
+	padding: 10px;
+	font-size: 14px;
+	opacity: 0;
+	animation-name: toast;
+	animation-duration: 5s;
+}
+@keyframes toast{
+	0%{
+		opacity: 0;
+	}
+	25%{
+		opacity: 0.8;
+	}
+	50%{
+		opacity: 0.8;
+	}
+	100%{
+		opacity: 0;
+	}
+}
+
+
+.float-menu {
+	position:absolute; 
+	visibility:hidden;
+	text-align: left;
+	z-index: 9999;
+}
+.float-menu ul{
+	margin: 0px;
+	padding: 0px;
+	list-style: none outside none;
+}
+.float-menu li{
+	margin: 1px 0;
+	padding:2px;
+	min-width: 65px;
+	text-align: center;
+	cursor: pointer;
+	list-style: none outside none;
+	background-color: #FFFFFF;
+	font-size: 14px;
+}
+
+
+tag{
+	display: block;
+	font-size: 14px;
+}
+tag-top{
+	display: block;
+	height: 35px; 
+	line-height: 35px;
+	background: #202020;
+}
+tag-top label{
+	background: white;
+	color: #202020;
+	display: inline-block;
+	height: 33px;
+	padding: 0px 5px 0px 5px;
+	border-style: solid;
+	border-width: thin;
+	border-color: C0C0C0;
+}
+tag-top label span{
+	padding-right: 10px;
+}
+tag-top label i{
+	font-size: 11px;
+}
+tag-top label i:hover{
+	color: #C0C0C0;
+}
+tag-body{
+	display: block;
+}
+tag-body iframe{
+	width: 100%; 
+	border-style: none;
+	display: none;
 }
