@@ -88,7 +88,7 @@ page-button{
 
 table-oper{
 	display: inline-block;
-	padding: 5px;
+	padding: 5px 0px;
 }
 
 table td,th{
@@ -118,19 +118,22 @@ pop .title{
 	vertical-align: top;
 	font-size: 14px;
 	float: left;
-	font-weight: 600;
 	padding: 0px;
 	margin: 0px;
+	color: white;
 }
 pop .close{
 	font-size: 12px;
 	float: right;
+	background: white;
+	display: inline-block;
 }
 pop .close:hover{
 	text-decoration: underline;
 }
 
 .toast{
+	z-index: 9999;
 	display: none;
 	position: fixed;
 	padding: 10px;
@@ -184,7 +187,7 @@ tag{
 }
 tag-top{
 	display: block;
-	height: 35px; 
+	height: 35px;
 	line-height: 35px;
 	background: #202020;
 }
@@ -192,11 +195,11 @@ tag-top label{
 	background: white;
 	color: #202020;
 	display: inline-block;
-	height: 33px;
+	height: 35px;
 	padding: 0px 5px 0px 5px;
 	border-style: solid;
 	border-width: thin;
-	border-color: C0C0C0;
+	border-color: #C0C0C0;
 }
 tag-top label span{
 	padding-right: 10px;
@@ -214,4 +217,19 @@ tag-body iframe{
 	width: 100%; 
 	border-style: none;
 	display: none;
+	overflow: auto;
+}
+
+
+.pop-dash{
+	border-radius: 8px;
+	background: whitesmoke;
+	display: inline-block;
+	text-align: left;
+	padding: 15px;
+}
+
+.table-image{
+	max-width: 200px;
+	max-height: 120px;
 }

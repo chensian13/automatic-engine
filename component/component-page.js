@@ -49,7 +49,7 @@ function pageResgisterEvent(id,fn){
 	var btns=pageMap[id].querySelectorAll("button");
 	for(var i=0;i<btns.length;i++){
 		btns[i].addEventListener('click',function(){
-			fn(pageMap[id].nowPage);
+			fn(pageMap[id].nowPage,pageMap[id].max);
 		},false);
 	} //end for
 }

@@ -128,8 +128,9 @@ function _table_header(id,config){
 	for(var i=0;i<config.header.length;i++){
 		var item=config.header[i];
 		var th=_table_create_("th",item.value,tr);
+		if(isNotEmpty(item.style))
+			th.setAttribute("class",item.style);
 		if(isNotEmpty(item.width))
-			//th.setAttribute("width",item.width);
 			th.style.minWidth=item.width;
 		th.field=item.field;
 		if(item.oper){
@@ -172,6 +173,8 @@ function _table_tr_data(tr,data,config){
 			var check=_table_create_("input",val,td);
 			continue ;
 		}
+		if(isNotEmpty(config.style))
+			tr.setAttribute("class",config.style);
 		if(!isEmpty(item.template)){
 			//模板修饰
 			var td=_table_create_("td",item.template(val,data),tr);

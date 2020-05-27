@@ -10,20 +10,8 @@ function formComponent(id){
 	form.onsubmit=function(){
 		return false;
 	}
-	var inputs=form.querySelectorAll('input[name]');
-	var map={};
-	for(var i=0;i<inputs.length;i++){
-		map[inputs[i].name]=inputs[i];
-	} //end for
-	var selects=form.querySelectorAll('select[name]');
-	for(var i=0;i<selects.length;i++){
-		map[selects[i].name]=selects[i];
-	} //end for
-	var areas=form.querySelectorAll('textarea[name]');
-	for(var i=0;i<areas.length;i++){
-		map[areas[i].name]=areas[i];
-	} //end for
-	formMap[id]=map;
+	//表单组件发现
+	_form_init(id);
 }
 
 
@@ -71,11 +59,6 @@ function formDataBind(id,data){
 function formDataClean(id){
 	var form=document.getElementById(id);
 	form.reset();
-//	var is=formMap[id];
-//	var map={};
-//	for(var e in is){
-//		is[e].value=null;
-//	}
 }
 
 
@@ -95,6 +78,23 @@ function formCheckSubmit(id){
 	return true;
 }
 
+function _form_init(id){
+	var form=document.getElementById(id);
+	var inputs=form.querySelectorAll('input[name]');
+	var map={};
+	for(var i=0;i<inputs.length;i++){
+		map[inputs[i].name]=inputs[i];
+	} //end for
+	var selects=form.querySelectorAll('select[name]');
+	for(var i=0;i<selects.length;i++){
+		map[selects[i].name]=selects[i];
+	} //end for
+	var areas=form.querySelectorAll('textarea[name]');
+	for(var i=0;i<areas.length;i++){
+		map[areas[i].name]=areas[i];
+	} //end for
+	formMap[id]=map;
+}
 
 /**
  * 自定义校验和自带校验表达式匹配
