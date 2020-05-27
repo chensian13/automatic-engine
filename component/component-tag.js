@@ -30,7 +30,7 @@ function _tag_register(tagId){
 			var name=this.getAttribute("tag-target");
 			var src=this.getAttribute("tag-href");
 			//找到选项卡,选项卡的tag-name保证唯一
-			var tag=document.getElementById(tagId);
+			var tag=queryComponent("",tagId);
 			//设置"显示字体与点击对象的innerText一致
 			var fs=tag.getElementsByTagName("iframe");
 			var b=0;
@@ -71,7 +71,7 @@ function _tag_register(tagId){
 function _tag_iframe_height(tagId,frame){
 	//获取所有tag
 	try{
-		var tag=document.getElementById(tagId);
+		var tag=queryComponent("",tagId);
 		var topHeight=tag.getElementsByTagName("tag-top")[0].offsetHeight;
 		var tagHeight=tag.offsetHeight;
 		frame.style.height=(tagHeight-topHeight)+"px";
@@ -85,7 +85,7 @@ function _tag_iframe_height(tagId,frame){
  * src只点击标签的target-href值，tag只选项卡，name设置点击按钮对应标签显示字体名称
  */
 function _tag_add_label(tagId,src,name){
-	var tag=document.getElementById(tagId);
+	var tag=queryComponent("",tagId);
 	//获得选定选项卡下的iframe
 	var iframes=tag.getElementsByTagName("tag-body")[0].getElementsByTagName("iframe");
 	//新建标签
@@ -157,7 +157,7 @@ function _tag_add_label(tagId,src,name){
  * src是iframe路径
  */
 function _tag_label_style(tagId,src){
-	var tag=document.getElementById(tagId);
+	var tag=queryComponent("",tagId);
 	var labels=tag.getElementsByTagName("tag-top")[0].getElementsByTagName("label");
 	for(var i=0;i<labels.length;i++){
 		//比较标签对应的iframe，比较条件为src框架路径

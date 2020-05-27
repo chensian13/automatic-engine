@@ -10,7 +10,7 @@ var tableConfig={};
 function tableComponent(id,config){
 	tableConfig[id]=config;
 	_table_header(id,config); //table头加入
-	var table=document.getElementById(id);
+	var table=queryComponent("table",id);
 	var tbody=_table_create_("tbody",null,table); //table体加入
 }
 
@@ -21,7 +21,7 @@ function tableComponent(id,config){
  */
 function tableData(tableId,data){
 	var config=tableConfig[tableId];
-	var table=document.getElementById(tableId);
+	var table=queryComponent("table",tableId);
 	var tbody=table.getElementsByTagName("tbody")[0];
 	tbody.innerHTML=""; //清空之前数据
 	if(data==null || data.length==0) return ;
@@ -37,7 +37,7 @@ function tableData(tableId,data){
  * @param {Object} tableId
  */
 function tableDeleteRows(id){
-	var trs=document.getElementById(id).querySelectorAll('tr');
+	var trs=queryComponent("table",id).querySelectorAll('tr');
 	if(trs==null) return ;
 	for(var i=1;i<trs.length;i++){
 		var checkbox=trs[i].querySelector("input[type='checkbox']");
@@ -53,7 +53,7 @@ function tableDeleteRows(id){
  */
 function tableSelectedIds(id){
 	var ids=[];
-	var trs=document.getElementById(id).querySelectorAll('tr');
+	var trs=queryComponent("table",id).querySelectorAll('tr');
 	if(trs==null) return ;
 	for(var i=1;i<trs.length;i++){
 		var checkbox=trs[i].querySelector("input[type='checkbox']");
@@ -122,7 +122,7 @@ function _table_create_(na,textContent,parent){
  * @param {Object} config
  */
 function _table_header(id,config){
-	var table=document.getElementById(id);
+	var table=queryComponent("table",id);
 	table.innerHTML=""; //清空
 	var tr=_table_create_("tr",null,table);
 	for(var i=0;i<config.header.length;i++){
@@ -149,7 +149,7 @@ function _table_header(id,config){
  */
 function _table_th_checkbox(id,box){
 	box.onchange=function(){
-		var boxes=document.getElementById(id).querySelectorAll("td input[type='checkbox']");
+		var boxes=queryComponent("table",id).querySelectorAll("td input[type='checkbox']");
 		for(var i=0;i<boxes.length;i++){
 			boxes[i].checked=this.checked;
 		} //end for

@@ -20,7 +20,7 @@ var pageMap={};
  * 
  */
 function pageComponent(id,max){
-	var page=document.getElementById(id);
+	var page=queryComponent("page-button",id);
 	if(isNotEmpty(id)){
 		pageEventMap[id]={}; //数据初始化
 		pageMap[id]=page;

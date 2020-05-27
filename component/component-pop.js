@@ -23,7 +23,7 @@ function popComponent(id,z,title){
  * @param {Object} show
  */
 function popShow(id,show){
-	var pop=document.getElementById(id);
+	var pop=queryComponent("pop",id);
 	var lay=document.querySelector("lay["+id+"]");
 	if(isEmpty(show)){
 		show=true;
@@ -47,7 +47,7 @@ function popShow(id,show){
  * @param {String} id
  */
 function _popCenter(id){
-	var pop=document.getElementById(id);
+	var pop=queryComponent("pop",id);
 	var popW=pop.offsetWidth;
 	var popH=pop.offsetHeight;
 	var body=document.body;
@@ -62,7 +62,7 @@ function _popCenter(id){
  * @param {Object} pl
  */
 function _pop_decorate(id,z){
-	var pop=document.getElementById(id);
+	var pop=queryComponent("pop",id);
 	var lay=document.querySelector("lay["+id+"]");
 	
 	lay.style.zIndex=z;
@@ -91,7 +91,7 @@ function _pop_lay_size(id){
  * @param {Object} id
  */
 function _pop_title_default(id,titleMsg){
-	var pop=document.getElementById(id);
+	var pop=queryComponent("pop",id);
 	var div=document.createElement("div");
 	div.setAttribute("class","titleDiv");
 	

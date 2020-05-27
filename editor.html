@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/common.css" />
+		<script type="text/javascript" src="analyse/analyse-common.js" ></script>
+		<style>
+			
+		</style>
+	</head>
+
+	<body>
+		
+		<button color="blue" onclick="popIm()">加</button><br />
+		<div contenteditable id="edit"></div>
+		
+		
+		<lay pop>
+		<pop id="pop">
+			<file-input big color="blue" id="file1" multiple="multiple" value="上传文件"></file-input>
+			<div>
+				<label>宽度：</label><input  />
+			</div>
+			<div>
+				<label>高度：</label><input  />
+			</div>
+			<button color="red">确定</button>
+		</pop>
+		</lay>
+	</body>
+	<script type="text/javascript" src="component/component-btn.js" ></script>
+	<script type="text/javascript" src="component/component-form.js" ></script>
+	<script type="text/javascript" src="component/component-file.js" ></script>
+	<script type="text/javascript" src="component/component-pop.js" ></script>
+	<script>
+		btnComponent();
+		popComponent("pop")
+		fileInputComponent('file1');
+		function ed(){
+			var e=document.getElementById("edit");
+			e.innerHTML="<h1>富文本</h1>"
+		}
+		ed();
+		
+		
+		function popIm(){
+			popShow("pop")
+		}
+		
+		function add(){
+			var e=document.getElementById("edit");
+			var src=fileInputForm("file1")[0];
+			
+			var img=document.createElement("img");
+			var windowURL = window.URL || window.webkitURL;
+			img.setAttribute("src",windowURL.createObjectURL(src));
+			e.append(img)
+		}
+	</script>
+</html>

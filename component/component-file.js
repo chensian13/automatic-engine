@@ -12,11 +12,11 @@ var DEFAULT_IMG_HEIGHT="140px";
  * 4）按钮大小：普通，大型按钮
  */
 function fileInputComponent(id){
-	_file_decorate(document.getElementById(id));
+	_file_decorate(queryComponent("file-input",id));
 }
 
 function fileInputForm(id){
-	var fi=document.getElementById(id);
+	var fi=queryComponent("file-input",id);
 	return fi.getElementsByTagName("input")[0].files;
 }
 

@@ -6,7 +6,7 @@ var formMap={};
 
 
 function formComponent(id){
-	var form=document.getElementById(id);
+	var form=queryComponent("form",id);
 	form.onsubmit=function(){
 		return false;
 	}
@@ -20,7 +20,7 @@ function formComponent(id){
  * @param {Object} id
  */
 function formDataMap(id){
-	var form=document.getElementById(id);
+	var form=queryComponent("form",id);
 	var is=formMap[id];
 	var map={};
 	for(var e in is){
@@ -39,7 +39,7 @@ function formDataJSON(id){
  * @param {Object} id
  */
 function formDataBind(id,data){
-	var form=document.getElementById(id);
+	var form=queryComponent("form",id);
 	var is=formMap[id];
 	var map={};
 	for(var e in is){
@@ -57,7 +57,7 @@ function formDataBind(id,data){
  * @param {Object} id
  */
 function formDataClean(id){
-	var form=document.getElementById(id);
+	var form=queryComponent("form",id);
 	form.reset();
 }
 
@@ -79,7 +79,7 @@ function formCheckSubmit(id){
 }
 
 function _form_init(id){
-	var form=document.getElementById(id);
+	var form=queryComponent("form",id);
 	var inputs=form.querySelectorAll('input[name]');
 	var map={};
 	for(var i=0;i<inputs.length;i++){
