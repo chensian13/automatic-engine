@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/common.css" />
+		<script type="text/javascript" src="analyse/analyse-common.js"></script>
+		<style>
+			
+		</style>
+
+	</head>
+
+	<body style="width: 500px;">
+		<list id="list"></list>
+		<!--<list-item class="border-solid-gray">
+			<img src="img/test.jpg" />
+			<div class="list-info">
+				<h1>威尼斯即可v那就是女</h1><hr />
+				<div>啊分色法人都不太方便发个</div>
+			</div>
+			<div style="clear: both;"></div>
+		</list-item>-->
+		
+	</body>
+	<script type="text/javascript" src="component/component-list.js"></script>
+	<script>
+		listComponent("list",[{
+			img:'img/test.jpg',
+			info:'有太多人看到人家女间谍可能就可能',
+			title:'i垃圾哦厉害',
+			id:1
+		},{
+			img:'img/test.jpg',
+			info:'有太多人看到人家女间谍可能就可能',
+			title:'i垃圾哦厉害'
+		},{
+			img:'img/test.jpg',
+			info:'有太多人看到人家女间谍可能就可能',
+			title:'i垃圾哦厉害'
+		}],function(id){
+			alert(id)
+		});
+	</script>
+</html>

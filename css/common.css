@@ -233,3 +233,35 @@ tag-body iframe{
 	max-width: 200px;
 	max-height: 120px;
 }
+
+list{
+	display: block;
+}
+list-item{
+	display: block;
+	margin-bottom: 10px;
+}
+list-item img{
+	width: 24%;
+	float: left;
+}
+.list-info{
+	float: right;
+	width: 75%;
+	display: inline-block;
+}
+.list-info hr{
+	background: #009688;
+	margin: 10px 10px 5px 10px;
+}
+.list-info h1{
+	font-size: 20px;
+	margin: 0px;
+	padding: 0px;
+}
+.list-info{
+	font-size: 16px;
+}
+.list-info:hover{
+	text-decoration: underline;
+}
