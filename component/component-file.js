@@ -11,8 +11,8 @@ var DEFAULT_IMG_HEIGHT="140px";
  * 3）按钮颜色
  * 4）按钮大小：普通，大型按钮
  */
-function fileInputComponent(id){
-	_file_decorate(queryComponent("file-input",id));
+function fileInputComponent(id,callback){
+	_file_decorate(queryComponent("file-input",id),callback);
 }
 
 function fileInputForm(id){
@@ -20,11 +20,25 @@ function fileInputForm(id){
 	return fi.getElementsByTagName("input")[0].files;
 }
 
+function fileInputClean(id){
+	var fi=queryComponent("file-input",id);
+	fi.getElementsByTagName("input")[0].value="";
+	if(isNotEmpty(fi.getAttribute("head"))){
+		fi.getElementsByTagName("img")[0].style.display="none";
+	}
+	fi.getElementsByTagName("span")[0].innerHTML="";
+}
+
+
+function fileInputUrl(id){
+	var windowURL = window.URL || window.webkitURL;
+	return windowURL.createObjectURL(fileInputForm(id)[0]);
+}
 //*************************************************************************************************
-function _file_decorate(fi){
+function _file_decorate(fi,callback){
 	if(isEmpty(fi)) return;
 	_file_createComponents(fi);
-	_file_input(fi);
+	_file_input(fi,callback);
 	_file_Btn(fi);
 	_file_span(fi);
 	_file_img(fi);
@@ -97,7 +111,7 @@ function _file_span(fi){
 /**
  * 创建按钮
  */
-function _file_input(fi){
+function _file_input(fi,callback){
 	var ip=fi.querySelector("input");
 	var span=fi.querySelector("span");
 	var img=fi.querySelector("img");
@@ -131,6 +145,10 @@ function _file_input(fi){
 				img.style.display="none";
 			}
 		} //end else
+		
+		if(isNotEmpty(callback)){
+			callback(span.innerHTML);
+		}
 	} //end bind
 }
 

@@ -116,3 +116,5 @@ function queryComponent(cName,id){
 
 
 
+
+
