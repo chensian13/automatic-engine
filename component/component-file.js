@@ -29,10 +29,33 @@ function fileInputClean(id){
 	fi.getElementsByTagName("span")[0].innerHTML="";
 }
 
-
 function fileInputUrl(id){
 	var windowURL = window.URL || window.webkitURL;
 	return windowURL.createObjectURL(fileInputForm(id)[0]);
+}
+
+function fileFiles(id){
+	var fi=queryComponent("file-input",id);
+	var ip=fi.querySelector("input");
+	return ip.files;
+}
+
+function fileShowImgae(id,url){
+	if(isEmpty(url)) return ;
+	var fi=queryComponent("file-input",id);
+	var img=fi.querySelector("img");
+	img.setAttribute('src',url);
+	img.style.display="block";
+}
+
+function fileBanUpload(id,isban){
+	var fi=queryComponent("file-input",id);
+	var btn=fi.querySelector("button");
+	if(isban){
+		btn.style.visibility="hidden";
+	}else{
+		btn.style.visibility="visible";
+	}
 }
 //*************************************************************************************************
 function _file_decorate(fi,callback){
@@ -56,7 +79,7 @@ function _file_createComponents(fi){
 		var img=document.createElement("img");
 		fi.appendChild(img);
 	}
-	
+
 	fi.appendChild(btn);
 	fi.appendChild(span);
 	fi.appendChild(ip);
@@ -70,7 +93,7 @@ function _file_Btn(fi){
 	var btn=fi.querySelector("button");
 	var ip=fi.querySelector("input");
 	var span=fi.querySelector("span");
-	
+
 	btn.setAttribute("big","");
 	btn.setAttribute("color",fi.getAttribute("color"));
 	btn.textContent=fi.getAttribute("value");
@@ -85,7 +108,7 @@ function _file_Btn(fi){
 function _file_img(fi){
 	var img=fi.querySelector("img");
 	if(isEmpty(img)) return ;
-	
+
 	img.style.display="none";
 	var h=fi.getAttribute("height");
 	if(isNotEmpty(h)){
@@ -103,7 +126,7 @@ function _file_img(fi){
  */
 function _file_span(fi){
 	var span=fi.querySelector("span");
-	
+
 	span.style.fontSize=FILE_TEXT_SIZE;
 	span.style.marginLeft="10px";
 }
@@ -115,7 +138,7 @@ function _file_input(fi,callback){
 	var ip=fi.querySelector("input");
 	var span=fi.querySelector("span");
 	var img=fi.querySelector("img");
-	
+
 	ip.style.display="none";
 	ip.setAttribute("type","file");
 	if(isNotEmpty(fi.getAttribute("multiple"))){
@@ -123,8 +146,8 @@ function _file_input(fi,callback){
 	}
 	ip.setAttribute("accept",fi.getAttribute("accept"));
 	ip.onchange=function(){
-		if(isNotEmpty(ip.files[0]) 
-				&& ip.files.length>0){
+		if(isNotEmpty(ip.files[0])
+			&& ip.files.length>0){
 			if(ip.files.length>1){
 				span.textContent=ip.files.length+"个文件";
 			}else{
@@ -145,7 +168,7 @@ function _file_input(fi,callback){
 				img.style.display="none";
 			}
 		} //end else
-		
+
 		if(isNotEmpty(callback)){
 			callback(span.innerHTML);
 		}
